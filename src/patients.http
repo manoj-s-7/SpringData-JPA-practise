@@ -1,0 +1,5 @@
+### Get all patients
+GET {{host}}/api/patient
+
+### GET patients by id
+GET {{host}}/api/patient/1
