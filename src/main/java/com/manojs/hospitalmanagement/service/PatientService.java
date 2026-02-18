@@ -2,6 +2,7 @@ package com.manojs.hospitalmanagement.service;
 
 import com.manojs.hospitalmanagement.entity.Patient;
 import com.manojs.hospitalmanagement.repository.PatientRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
+    @Transactional
     public Optional<Patient> getAllPatientById(Long id){
         return patientRepository.findById(id);
     }
