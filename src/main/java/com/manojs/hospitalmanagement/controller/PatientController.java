@@ -27,22 +27,16 @@ public class PatientController {
 
     @GetMapping("/id/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
-        return patientService.getPatientById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+        return ResponseEntity.ok(patientService.getPatientById(id));
     }
 
     @PostMapping
     public ResponseEntity<Patient> savePatient(@RequestBody Patient patient) {
-        return patientService.savePatient(patient)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.badRequest().build());
+        return ResponseEntity.ok(patientService.savePatient(patient));
     }
 
-    @GetMapping("/name/{name}")
-    public ResponseEntity<Patient> getByName(@PathVariable String name) {
-        return patientService.findByName(name)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    @GetMapping(path = "/name/{name}")
+    public ResponseEntity<List<Patient>> findByName(@PathVariable String name){
+        return ResponseEntity.ok(patientService.findByName(name));
     }
 }

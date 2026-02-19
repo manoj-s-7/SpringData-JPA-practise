@@ -2,33 +2,33 @@ package com.manojs.hospitalmanagement.service;
 
 import com.manojs.hospitalmanagement.entity.Patient;
 import com.manojs.hospitalmanagement.repository.PatientRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class PatientService {
+
     private final PatientRepository patientRepository;
 
-    public List<Patient> getAllPatients(){
+    public List<Patient> getAllPatients() {
         return patientRepository.findAll();
     }
 
-    @Transactional
-    public Optional<Patient> getPatientById(Long id){
-        return patientRepository.findById(id);
+    public Patient getPatientById(Long id) {
+        return patientRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Patient not found with id: " + id));
     }
 
-    public Optional<Patient> savePatient(Patient patient){
-        Patient saved = patientRepository.save(patient);
-        return Optional.of(saved);
+    public Patient savePatient(Patient patient) {
+        return patientRepository.save(patient);
     }
-    public Optional<Patient> findByName(String name){
-        return patientRepository.findByName(name);
 
+    public List<Patient> findByName(String name) {
+        return patientRepository.findByName(name)
+                .map(List::of)   // Only if repo returns Optional<Patient>
+                .orElse(List.of());
     }
 }
