@@ -2,4 +2,20 @@
 GET {{host}}/api/patient
 
 ### GET patients by id
-GET {{host}}/api/patient/3
+GET {{host}}/api/patient/id/3
+
+### POST Patient
+POST {{host}}/api/patient
+Content-Type: application/json
+
+{
+    "name": "Manoj",
+    "birthDate": "2006-12-12",
+    "email": "manoj123@gmail.com",
+    "gender": "male",
+    "bloodGroup": "A_Negative"
+}
+
+### GET patients by name
+
+GET {{host}}/api/patient/name/Arjun

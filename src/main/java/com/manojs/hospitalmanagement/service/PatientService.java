@@ -19,8 +19,16 @@ public class PatientService {
     }
 
     @Transactional
-    public Optional<Patient> getAllPatientById(Long id){
+    public Optional<Patient> getPatientById(Long id){
         return patientRepository.findById(id);
     }
 
+    public Optional<Patient> savePatient(Patient patient){
+        Patient saved = patientRepository.save(patient);
+        return Optional.of(saved);
+    }
+    public Optional<Patient> findByName(String name){
+        return patientRepository.findByName(name);
+
+    }
 }
