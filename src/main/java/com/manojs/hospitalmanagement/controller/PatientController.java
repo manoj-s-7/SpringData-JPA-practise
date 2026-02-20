@@ -25,10 +25,17 @@ public class PatientController {
 
     private final PatientService patientService;
 
-//    @GetMapping
-//    public ResponseEntity<List<Patient>> getAllPatients() {
-//        return ResponseEntity.ok(patientService.getAllPatients());
-//    }
+    @GetMapping
+    public ResponseEntity<Page<Patient>> findAllPatients(@RequestParam(defaultValue = "0") int page,
+                                                         @RequestParam(defaultValue = "10") int size,
+                                                         @RequestParam(defaultValue = "createdAt") String sortField,
+                                                         @RequestParam(defaultValue = "desc") String sortDir
+    ) {
+        Sort sort = sortDir.equalsIgnoreCase("desc")
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+        return ResponseEntity.ok(patientService.findAllPatients(PageRequest.of(page, size, sort)));
+    }
 
     @GetMapping("/id/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable Long id) {
@@ -41,25 +48,14 @@ public class PatientController {
     }
 
     @GetMapping(path = "/name/{name}")
-    public ResponseEntity<List<Patient>> findByName(@PathVariable String name){
+    public ResponseEntity<List<Patient>> findByName(@PathVariable String name) {
         return ResponseEntity.ok(patientService.findByName(name));
     }
 
     @GetMapping(path = "/bloodGroupCount")
-    public ResponseEntity<List<BloodGroupCountDTO>> getBloodGroupCount(){
+    public ResponseEntity<List<BloodGroupCountDTO>> getBloodGroupCount() {
         return ResponseEntity.ok(patientService
                 .bloodGroupCount());
     }
 
-    @GetMapping
-    public ResponseEntity<Page<Patient>> findAllPatients(@RequestParam(defaultValue = "0") int page,
-                                                         @RequestParam(defaultValue = "10") int size,
-                                                         @RequestParam(defaultValue = "createdAt") String sortField,
-                                                         @RequestParam(defaultValue = "desc")  String sortDir
-    ){
-        Sort sort = sortDir.equalsIgnoreCase("desc")
-                ? Sort.by(sortField).descending()
-                : Sort.by(sortField).ascending();
-        return ResponseEntity.ok(patientService.findAllPatients(PageRequest.of(page,size,sort)));
-    }
 }

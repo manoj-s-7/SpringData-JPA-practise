@@ -1,5 +1,9 @@
-### Get all patients
-GET {{host}}/api/patient
+### Get patients using pagination
+GET {{host}}/api/patient?
+    page=0&
+    size=20&
+    sortField=name&
+    sortDir=desc
 
 ### GET patients by id
 GET {{host}}/api/patient/id/3
@@ -18,14 +22,8 @@ Content-Type: application/json
 
 ### GET patients by name
 
-GET {{host}}/api/patient/name/Manoj
+GET {{host}}/api/patient/name/{{name}}
 
 ### GET Blood Group Count
 GET {{host}}/api/patient/bloodGroupCount
 
-### Get patients using pagination
-GET {{host}}/api/patient?
-    page=0&
-    size=20&
-    sortField=name&
-    sortDir=desc
