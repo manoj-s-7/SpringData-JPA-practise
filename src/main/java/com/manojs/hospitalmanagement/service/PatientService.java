@@ -1,8 +1,11 @@
 package com.manojs.hospitalmanagement.service;
 
+import com.manojs.hospitalmanagement.dto.BloodGroupCountDTO;
 import com.manojs.hospitalmanagement.entity.Patient;
 import com.manojs.hospitalmanagement.repository.PatientRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,5 +33,12 @@ public class PatientService {
         return patientRepository.findByName(name)
                 .map(List::of)   // Only if repo returns Optional<Patient>
                 .orElse(List.of());
+    }
+    public List<BloodGroupCountDTO> bloodGroupCount(){
+        return patientRepository.groupByBloodGroup();
+    }
+
+    public Page<Patient> findAllPatients(Pageable pageable){
+        return patientRepository.findAllPatients(pageable);
     }
 }

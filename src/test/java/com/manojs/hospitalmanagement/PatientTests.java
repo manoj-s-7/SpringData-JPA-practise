@@ -6,6 +6,9 @@ import com.manojs.hospitalmanagement.service.PatientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 
 import java.util.List;
@@ -30,6 +33,26 @@ public class PatientTests {
         Patient patientRepositoryByName = patientRepository.findByName("Arjun").orElse(null);
         System.out.println(patientRepositoryByName);
 
+    }
+    @Test
+    void JPQLTest(){
+//        List<Patient> aPositive = patientRepository.findByBloodGroup(BloodGroupType.A_Positive);
+//        System.out.println(aPositive);
+//
+//        List<BloodGroupCountDTO> patients = patientRepository.groupByBloodGroup();
+//        System.out.println(patients);
+
+//        List<Patient> patientByBornAfterDate = patientRepository.findPatientByBornAfterDate(LocalDate.of(2003, 3, 14));
+//        System.out.println(patientByBornAfterDate);
+
+//        List<Patient> aLlMalePatients = patientRepository.findALlMalePatients();
+//        System.out.println(aLlMalePatients);
+
+//        int rewCount = patientRepository.updateNameByID("Manthan KU", 1L);
+//        System.out.println(rewCount);
+
+        Page<Patient> allPatients = patientRepository.findAllPatients(PageRequest.of(0, 10, Sort.by("name")));
+        allPatients.forEach(System.out::println);
     }
 
 }
