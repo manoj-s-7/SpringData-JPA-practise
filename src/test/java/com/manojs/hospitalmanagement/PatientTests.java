@@ -1,5 +1,6 @@
 package com.manojs.hospitalmanagement;
 
+import com.manojs.hospitalmanagement.dto.PatientContactDTO;
 import com.manojs.hospitalmanagement.entity.Patient;
 import com.manojs.hospitalmanagement.repository.PatientRepository;
 import com.manojs.hospitalmanagement.service.PatientService;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 
@@ -48,11 +50,13 @@ public class PatientTests {
 //        List<Patient> aLlMalePatients = patientRepository.findALlMalePatients();
 //        System.out.println(aLlMalePatients);
 
-//        int rewCount = patientRepository.updateNameByID("Manthan KU", 1L);
-//        System.out.println(rewCount);
+//        int rowCount = patientRepository.updateNameByID("Manthan KU", 1L);
+//        System.out.println(rowCount);
 
-        Page<Patient> allPatients = patientRepository.findAllPatients(PageRequest.of(0, 10, Sort.by("name")));
-        allPatients.forEach(System.out::println);
+//        Page<Patient> allPatients = patientRepository.findAllPatients(PageRequest.of(0, 10, Sort.by("name")));
+//        allPatients.forEach(System.out::println);
+
+        System.out.println(patientRepository.findPatientContact(PageRequest.of(0,10,Sort.by("name"))));
     }
 
 }

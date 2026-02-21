@@ -2,7 +2,8 @@ package com.manojs.hospitalmanagement.repository;
 
 import com.manojs.hospitalmanagement.dto.BloodGroupByPatientsDTO;
 import com.manojs.hospitalmanagement.dto.BloodGroupCountDTO;
-import com.manojs.hospitalmanagement.entity.BloodGroupType;
+import com.manojs.hospitalmanagement.dto.PatientContactDTO;
+import com.manojs.hospitalmanagement.entity.type.BloodGroupType;
 import com.manojs.hospitalmanagement.entity.Patient;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
@@ -70,4 +71,11 @@ public interface PatientRepository extends JpaRepository<Patient, Long> {
 
     @Query(value = "SELECT * FROM patients_table", nativeQuery = true)
     Page<Patient> findAllPatients(Pageable pageable);
+
+    @Query("""
+            SELECT new com.manojs.hospitalmanagement.dto.PatientContactDTO(p.name,p.email) 
+                    FROM Patient p
+        """)
+    List<PatientContactDTO> findPatientContact(Pageable pageable);
+
 }

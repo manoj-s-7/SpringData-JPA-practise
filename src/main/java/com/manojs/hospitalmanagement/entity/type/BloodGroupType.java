@@ -1,4 +1,4 @@
-package com.manojs.hospitalmanagement.entity;
+package com.manojs.hospitalmanagement.entity.type;
 
 public enum BloodGroupType {
 

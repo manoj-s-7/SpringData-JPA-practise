@@ -1,4 +1,4 @@
-INSERT INTO patients_table
+INSERT INTO patient
 (birth_date, email, gender, name, blood_group, created_at)
 VALUES
     ('2004-05-21', 'arjun.p@gmail.com', 'male', 'Arjun', 'A_Positive', NOW()),
