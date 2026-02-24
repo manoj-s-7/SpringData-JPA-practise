@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import lombok.AllArgsConstructor;
@@ -42,5 +43,9 @@ public class Department {
     private LocalDateTime createdAt;
 
     @ManyToMany
-    private Set<Doctor> doctorSet = new HashSet<>();
+    @JoinTable(name = "dept_doctors",
+            joinColumns = @JoinColumn(name = "dept_id"),
+            inverseJoinColumns = @JoinColumn(name = "doctor_id")
+    )
+    private Set<Doctor> doctors = new HashSet<>();
 }

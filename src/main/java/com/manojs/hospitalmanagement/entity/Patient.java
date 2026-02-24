@@ -1,6 +1,7 @@
 package com.manojs.hospitalmanagement.entity;
 
 import com.manojs.hospitalmanagement.entity.type.BloodGroupType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -53,7 +54,7 @@ public class Patient {
     @Enumerated(EnumType.STRING)
     private BloodGroupType bloodGroup;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "patient_insurance_id")
     private Insurance insurance;
 
