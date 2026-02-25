@@ -1,0 +1,28 @@
+### GEt Patient Insurance
+
+GET {{host}}/api/insurance/2
+
+### POST Insurance
+
+POST {{host}}/api/insurance/2
+Content-Type: application/json
+
+{
+  "policyNumber": "POL-784512",
+  "provider": "Star Health Insurance",
+  "validDate": "2027-12-31"
+}
+
+### put insurance
+
+PUT {{host}}/api/insurance/2
+Content-Type: application/json
+
+{
+  "policyNumber": "POL-784512",
+  "provider": "Tata Health Care",
+  "validDate": "2027-12-31"
+}
+
+### delete Insurance
+DELETE {{host}}/api/insurance/1
