@@ -1,0 +1,88 @@
+### 1. Get All Patients (Pagination + Sorting)
+
+GET {{host}}/api/patients?page=0&size=10&sortField=createdAt&sortDir=desc
+Accept: application/json
+
+### 2. Get Patients - Different Page
+
+GET {{host}}/api/patients?page=1&size=5&sortField=name&sortDir=asc
+Accept: application/json
+
+### 3. Get Patient By ID
+
+GET {{host}}/api/patients/2
+Accept: application/json
+
+### 4. Get Patient By Invalid ID (Error Test)
+
+GET {{host}}/api/patients/999
+Accept: application/json
+
+### 5. Create Patient
+
+POST {{host}}/api/patients
+Content-Type: application/json
+
+{
+  "name": "Andrew Tate",
+  "birthDate": "1986-12-14",
+  "email": "tate987@gmail.com",
+  "gender": "MALE",
+  "bloodGroup": "A_Negative"
+}
+### 6. Create Another Patient
+
+POST {{host}}/api/patients
+Content-Type: application/json
+
+{
+  "name": "Rahul Sharma",
+  "birthDate": "1999-05-15",
+  "email": "mailtorahul.sharma@gmail.com",
+  "gender": "MALE",
+  "bloodGroup": "A_Negative"
+}
+
+### 7. Update Patient
+
+PUT {{host}}/api/patients/1
+Content-Type: application/json
+
+{
+  "name": "Manthan Kumar",
+  "birthDate": "2006-12-20",
+  "email": "manthan.updated@gmail.com",
+  "gender": "MALE",
+  "bloodGroup": "B_Negative"
+}
+
+### 8. Update Invalid Patient
+
+PUT {{host}}/api/patients/999
+Content-Type: application/json
+
+{
+  "name": "Invalid Patient",
+  "birthDate": "2000-01-01",
+  "email": "mailtoinvalid@test.com",
+  "gender": "FEMALE",
+  "bloodGroup": "A_Negative"
+}
+
+### 9. Delete Patient
+
+DELETE {{host}}/api/patients/1
+
+### 10. Delete Invalid Patient
+
+DELETE {{host}}/api/patients/999
+
+### 11. Search Patient By Name
+
+GET {{host}}/api/patients/search?name={{name}}
+Accept: application/json
+
+### 12. Get Blood Group Count
+
+GET {{host}}/api/patients/blood-groups/count
+Accept: application/json

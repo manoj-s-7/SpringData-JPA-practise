@@ -1,16 +1,11 @@
 package com.manojs.hospitalmanagement;
 
-import com.manojs.hospitalmanagement.dto.PatientContactDTO;
-import com.manojs.hospitalmanagement.entity.Patient;
-import com.manojs.hospitalmanagement.repository.PatientRepository;
-import com.manojs.hospitalmanagement.service.PatientService;
+import com.manojs.hospitalmanagement.patient.entity.Patient;
+import com.manojs.hospitalmanagement.patient.repository.PatientRepository;
+import com.manojs.hospitalmanagement.patient.service.PatientService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
 
 import java.util.List;
