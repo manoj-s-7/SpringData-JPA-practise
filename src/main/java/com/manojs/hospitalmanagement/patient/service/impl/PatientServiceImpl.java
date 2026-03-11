@@ -21,6 +21,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -56,6 +57,15 @@ public class PatientServiceImpl implements PatientService {
         Patient byId = patientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id:" + id));
         patientMapper.updateFromDto(byId, patientRequestDto);
+        return patientMapper.toDto(byId);
+    }
+
+    @Override
+    @Transactional
+    public PatientResponseDto partialUpdatePatient(final Long id, final PatientRequestDto patientRequestDto) {
+        Patient byId = patientRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id:" + id));
+        patientMapper.partialUpdateFromDto(byId,patientRequestDto);
         return patientMapper.toDto(byId);
     }
 

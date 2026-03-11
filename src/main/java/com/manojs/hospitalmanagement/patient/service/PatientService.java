@@ -20,6 +20,8 @@ public interface PatientService {
 
     PatientResponseDto updatePatient(Long id, PatientRequestDto patientRequestDto);
 
+    PatientResponseDto partialUpdatePatient(Long id, PatientRequestDto patientRequestDto);
+
     void deletePatient(Long id);
 
     List<PatientResponseDto> findByName(String name);

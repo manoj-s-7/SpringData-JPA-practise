@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/patients")
@@ -69,6 +71,13 @@ public class PatientController {
         return ResponseEntity.ok(patientService.updatePatient(id, patientRequestDto));
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<PatientResponseDto> partialUpdate(
+            @PathVariable Long id,
+            @RequestBody PatientRequestDto patientRequestDto) {
+        return ResponseEntity.ok(patientService.partialUpdatePatient(id, patientRequestDto));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
         patientService.deletePatient(id);
@@ -86,12 +95,12 @@ public class PatientController {
     }
 
     @GetMapping("/stats/gender")
-    public ResponseEntity<GenderDto> getGenderStats(){
+    public ResponseEntity<GenderDto> getGenderStats() {
         return ResponseEntity.ok(patientService.genderCountStats());
     }
 
     @GetMapping("/stats/age")
-    private ResponseEntity<AgeGroupDto> getAgeStats(){
+    private ResponseEntity<AgeGroupDto> getAgeStats() {
         return ResponseEntity.ok(patientService.getAgeGroupStats());
     }
 
@@ -111,6 +120,7 @@ public class PatientController {
                 patientService.filterPatients(filter, PageRequest.of(page, size, sort))
         );
     }
+
     @GetMapping("/recent")
     public ResponseEntity<List<PatientResponseDto>> getRecentPatients(
             @RequestParam(defaultValue = "5") int limit) {

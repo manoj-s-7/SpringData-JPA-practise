@@ -111,3 +111,11 @@ Accept: application/json
 ### 18. Get Recent Patients
 
 GET {{host}}/api/patients/recent?limit=10
+
+### 19. Patach Patient (Partial Update)
+PATCH {{host}}/api/patients/1
+Content-Type: application/json
+
+{
+  "bloodGroup": "A_Negative"
+}

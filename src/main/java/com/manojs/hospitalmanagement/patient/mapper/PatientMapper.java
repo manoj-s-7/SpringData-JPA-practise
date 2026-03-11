@@ -15,7 +15,9 @@ public interface PatientMapper {
 
     PatientResponseDto toDto(Patient patient);
 
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
     void updateFromDto(@MappingTarget Patient patient, PatientRequestDto patientRequestDto);
+
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void partialUpdateFromDto(@MappingTarget Patient patient, PatientRequestDto patientRequestDto);
 
 }
