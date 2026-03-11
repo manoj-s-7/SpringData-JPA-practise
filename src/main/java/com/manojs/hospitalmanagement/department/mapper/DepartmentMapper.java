@@ -5,6 +5,7 @@ import com.manojs.hospitalmanagement.department.dto.DepartmentResponseDto;
 import com.manojs.hospitalmanagement.department.entity.Department;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
@@ -13,6 +14,7 @@ public interface DepartmentMapper {
 
     Department toEntity(DepartmentRequestDto departmentRequestDto);
 
+    @Mapping(source = "headDoctor", target = "headDoctor")
     DepartmentResponseDto toDto(Department department);
 
     void updateDepartment(@MappingTarget Department department,DepartmentRequestDto departmentRequestDto);

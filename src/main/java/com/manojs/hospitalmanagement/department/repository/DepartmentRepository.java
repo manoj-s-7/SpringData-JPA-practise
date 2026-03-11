@@ -9,4 +9,8 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface DepartmentRepository extends JpaRepository<Department, Long> {
 
+    @Query(value = "SELECT * FROM department", countQuery = "SELECT COUNT(*) FROM department",
+            nativeQuery = true)
+    Page<Department> findAllDepartments(Pageable pageable);
+
 }

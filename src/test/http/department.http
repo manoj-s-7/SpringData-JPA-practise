@@ -1,0 +1,9 @@
+### Get All Departments
+GET {{host}}/api/departments?
+    page=0&
+    size=5&
+    sortField=name
+
+### Post Doctor to Department
+POST {{host}}/api/departments/4/doctor/21
+
