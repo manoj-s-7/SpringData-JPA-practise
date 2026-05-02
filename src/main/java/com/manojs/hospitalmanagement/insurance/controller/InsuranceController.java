@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("api/insurance")
+@RequestMapping("/insurance")
 public class InsuranceController {
 
     private final InsuranceService insuranceService;

@@ -1,6 +1,6 @@
 ### 1. Get All Patients (Pagination + Sorting)
 
-GET {{host}}/api/patients?page=0&size=10&sortField=created_at&sortDir=desc
+GET {{host}}/patients?page=0&size=10&sortField=created_at&sortDir=desc
 Accept: application/json
 
 ### 2. Get Patients - Different Page
@@ -10,7 +10,7 @@ Accept: application/json
 
 ### 3. Get Patient By ID
 
-GET {{host}}/api/patients/33
+GET {{host}}/api/patients/1
 Accept: application/json
 
 ### 4. Get Patient By Invalid ID (Error Test)

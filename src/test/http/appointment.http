@@ -1,5 +1,5 @@
 ### Post create appointment
-POST {{host}}/api/appointments
+POST {{host}}/appointments
 Content-Type: application/json
 
 {

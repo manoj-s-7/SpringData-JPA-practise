@@ -4,6 +4,7 @@ import com.manojs.hospitalmanagement.patient.dto.AgeGroupDto;
 import com.manojs.hospitalmanagement.patient.dto.BloodGroupCountDTO;
 import com.manojs.hospitalmanagement.patient.dto.GenderDto;
 import com.manojs.hospitalmanagement.patient.dto.PageResponse;
+import com.manojs.hospitalmanagement.patient.dto.PatientDto;
 import com.manojs.hospitalmanagement.patient.dto.PatientFilterDto;
 import com.manojs.hospitalmanagement.patient.dto.PatientRequestDto;
 import com.manojs.hospitalmanagement.patient.dto.PatientResponseDto;
@@ -31,15 +32,14 @@ public class PatientServiceImpl implements PatientService {
     private final PatientMapper patientMapper;
 
     @Override
-    public List<PatientResponseDto> getAllPatients() {
-        List<Patient> patientList = patientRepository.findAll();
-        return patientList.stream().map(patientMapper::toDto).toList();
+    public List<PatientDto> getAllPatients() {
+    return patientMapper.toSlimDtoList(patientRepository.findAll());
     }
 
     @Override
     public PatientResponseDto getPatientById(Long id) {
 
-        Patient byId = patientRepository.findById(id)
+        Patient byId = patientRepository.findByIdWithDetails(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found with id:" + id));
 
         return patientMapper.toDto(byId);
@@ -131,5 +131,10 @@ public class PatientServiceImpl implements PatientService {
         return patients.stream()
                 .map(patientMapper::toDto)
                 .toList();
+    }
+
+    @Override
+    public List<PatientDto> getOnlyPatients() {
+        return List.of();
     }
 }

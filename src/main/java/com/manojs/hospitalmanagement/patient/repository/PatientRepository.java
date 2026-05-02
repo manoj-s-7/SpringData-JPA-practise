@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -46,4 +47,10 @@ public interface PatientRepository extends JpaRepository<Patient, Long>, JpaSpec
     AgeGroupDto getAgeGroupStats();
 
     List<Patient> findAllByOrderByCreatedAtDesc(Pageable pageable);
+
+    @Query("SELECT p FROM Patient p " +
+            "LEFT JOIN FETCH p.insurance " +
+            "LEFT JOIN FETCH p.appointment " +
+            "WHERE p.id = :id")
+    Optional<Patient> findByIdWithDetails(@Param("id") Long id);
 }

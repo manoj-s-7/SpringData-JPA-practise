@@ -4,6 +4,7 @@ import com.manojs.hospitalmanagement.patient.dto.AgeGroupDto;
 import com.manojs.hospitalmanagement.patient.dto.BloodGroupCountDTO;
 import com.manojs.hospitalmanagement.patient.dto.GenderDto;
 import com.manojs.hospitalmanagement.patient.dto.PageResponse;
+import com.manojs.hospitalmanagement.patient.dto.PatientDto;
 import com.manojs.hospitalmanagement.patient.dto.PatientFilterDto;
 import com.manojs.hospitalmanagement.patient.dto.PatientRequestDto;
 import com.manojs.hospitalmanagement.patient.dto.PatientResponseDto;
@@ -30,7 +31,7 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/patients")
+@RequestMapping("/patients")
 public class PatientController {
 
     private final PatientService patientService;
@@ -126,6 +127,11 @@ public class PatientController {
             @RequestParam(defaultValue = "5") int limit) {
 
         return ResponseEntity.ok(patientService.getRecentPatients(limit));
+    }
+
+    @GetMapping(path = "/all")
+    public ResponseEntity<List<PatientDto>> getAllPatients(){
+        return ResponseEntity.ok(patientService.getAllPatients());
     }
 }
 

@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/api/doctors")
+@RequestMapping("/doctors")
 @RequiredArgsConstructor
 public class DoctorController {
 
