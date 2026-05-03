@@ -1,8 +1,5 @@
 ### Get All Doctors
-GET {{host}}/api/doctors?
-    page=0&
-    size=10&
-    sortField=name
+GET {{host}}/api/doctors?page=0&size=10&sortField=name
 
 ### Get Doctor by ID
 GET {{host}}/api/doctors/1
