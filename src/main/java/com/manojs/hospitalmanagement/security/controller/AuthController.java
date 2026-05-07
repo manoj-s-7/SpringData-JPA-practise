@@ -3,6 +3,8 @@ package com.manojs.hospitalmanagement.security.controller;
 
 import com.manojs.hospitalmanagement.security.dto.LoginRequestDto;
 import com.manojs.hospitalmanagement.security.dto.LoginResponseDto;
+import com.manojs.hospitalmanagement.security.dto.SignUpRequestDto;
+import com.manojs.hospitalmanagement.security.dto.SignUpResponseDto;
 import com.manojs.hospitalmanagement.security.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,5 +24,12 @@ public class AuthController {
     public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequestDto){
         return ResponseEntity.ok(authService.login(loginRequestDto));
     }
+
+    @PostMapping(path = "/signup")
+    public ResponseEntity<SignUpResponseDto> login(@RequestBody SignUpRequestDto signUpRequestDto) throws Exception {
+        return ResponseEntity.ok(authService.signup(signUpRequestDto));
+    }
+
+
 
 }
