@@ -1,4 +1,4 @@
-package com.manojs.hospitalmanagement.security;
+package com.manojs.hospitalmanagement.user.service;
 
 import com.manojs.hospitalmanagement.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +18,4 @@ public class CustomUserDetailService implements UserDetailsService {
     public UserDetails loadUserByUsername(final String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElseThrow(()-> new UsernameNotFoundException("User not Fount : "+ username));
     }
-
-
 }

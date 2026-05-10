@@ -3,12 +3,12 @@ package com.manojs.hospitalmanagement.security.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @Data
-@RequiredArgsConstructor
 @AllArgsConstructor
-public class LoginRequestDto {
+@NoArgsConstructor
+public class SignUpResponseDto {
+    Long id;
     String username;
-    String password;
 }

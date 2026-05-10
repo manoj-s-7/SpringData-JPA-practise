@@ -1,10 +1,12 @@
 package com.manojs.hospitalmanagement.exception;
 
+import org.springframework.http.HttpStatus;
+
 import java.time.LocalDateTime;
 
 public record ErrorResponse(
         LocalDateTime timestamp,
-        int status,
+        HttpStatus status,
         String error,
         String message,
         String path
