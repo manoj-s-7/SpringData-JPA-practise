@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -21,52 +22,31 @@ import java.util.List;
 @Table(name = "users")
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
-public class User implements UserDetails {
+@AllArgsConstructor
+@Builder
+public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    private String username;
+    @Column(unique = true, nullable = false, length = 255)
+    private String email;
+
+    @Column(nullable = false, length = 100)
+    private String fullName;
 
     @Column(nullable = false)
-    private String password;
+    private boolean enabled = true;
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of();
-    }
+    @Column(nullable = false)
+    private boolean accountNonLocked = true;
 
-    @Override
-    public String getUsername() {
-        return this.username;
-    }
+    @Column(nullable = false)
+    private boolean accountNonExpired = true;
 
-    @Override
-    public String getPassword() {
-        return this.password;
-    }
+    @Column(nullable = false)
+    private boolean credentialsNonExpired = true;
 
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
 }

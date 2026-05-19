@@ -1,15 +1,19 @@
-package com.manojs.hospitalmanagement.security;
+package com.manojs.hospitalmanagement.security.service;
 
 
+import com.manojs.hospitalmanagement.user.dto.LoginResponseDto;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
+import tools.jackson.databind.ObjectMapper;
 
 import java.io.IOException;
 
@@ -17,10 +21,24 @@ import java.io.IOException;
 @RequiredArgsConstructor
 public class OAuth2SuccessHandler implements AuthenticationSuccessHandler {
 
+    private final AuthService authService;
+    private final ObjectMapper objectMapper;
     @Override
     public void onAuthenticationSuccess(final HttpServletRequest request, final HttpServletResponse response, final Authentication authentication) throws IOException, ServletException {
         OAuth2AuthenticationToken token = (OAuth2AuthenticationToken) authentication;
         OAuth2User user = (OAuth2User) authentication.getPrincipal();
+
+        String registrationId = token.getAuthorizedClientRegistrationId();
+
+        try {
+            ResponseEntity<LoginResponseDto> loginResponseDtoResponseEntity = authService.handleOAuth2LoginRequest(user, registrationId);
+
+            response.setStatus(loginResponseDtoResponseEntity.getStatusCode().value());
+            response.setContentType(MediaType.APPLICATION_JSON_VALUE);
+            response.getWriter().write(objectMapper.writeValueAsString(loginResponseDtoResponseEntity.getBody()));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }

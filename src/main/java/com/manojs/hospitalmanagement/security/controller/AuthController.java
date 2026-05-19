@@ -1,10 +1,10 @@
 package com.manojs.hospitalmanagement.security.controller;
 
 
-import com.manojs.hospitalmanagement.security.dto.LoginRequestDto;
-import com.manojs.hospitalmanagement.security.dto.LoginResponseDto;
-import com.manojs.hospitalmanagement.security.dto.SignUpRequestDto;
-import com.manojs.hospitalmanagement.security.dto.SignUpResponseDto;
+import com.manojs.hospitalmanagement.user.dto.LoginRequestDto;
+import com.manojs.hospitalmanagement.user.dto.LoginResponseDto;
+import com.manojs.hospitalmanagement.user.dto.SignUpRequestDto;
+import com.manojs.hospitalmanagement.user.dto.SignUpResponseDto;
 import com.manojs.hospitalmanagement.security.service.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -1,20 +1,25 @@
 package com.manojs.hospitalmanagement.security.service;
 
 
-import com.manojs.hospitalmanagement.security.dto.LoginRequestDto;
-import com.manojs.hospitalmanagement.security.dto.LoginResponseDto;
-import com.manojs.hospitalmanagement.security.dto.SignUpRequestDto;
-import com.manojs.hospitalmanagement.security.dto.SignUpResponseDto;
+import com.manojs.hospitalmanagement.user.dto.LoginRequestDto;
+import com.manojs.hospitalmanagement.user.dto.LoginResponseDto;
+import com.manojs.hospitalmanagement.user.dto.SignUpRequestDto;
+import com.manojs.hospitalmanagement.user.dto.SignUpResponseDto;
+import com.manojs.hospitalmanagement.security.entity.SecurityUser;
 import com.manojs.hospitalmanagement.security.util.AuthUtil;
 import com.manojs.hospitalmanagement.user.entity.User;
-import com.manojs.hospitalmanagement.user.mapper.UserMapper;
+import com.manojs.hospitalmanagement.user.entity.UserAuthProvider;
+import com.manojs.hospitalmanagement.security.entity.type.AuthProviderType;
+import com.manojs.hospitalmanagement.user.repository.UserAuthProviderRepository;
 import com.manojs.hospitalmanagement.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -24,28 +29,29 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final AuthUtil authUtil;
     private final UserRepository userRepository;
-    private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
+    private final UserAuthProviderRepository authRepository;
+    private final OAuthAccountService oAuthAccountService;
 
     public LoginResponseDto login(LoginRequestDto loginRequestDto) {
 
         try {
-
             Authentication authentication =
                     authenticationManager.authenticate(
                             new UsernamePasswordAuthenticationToken(
-                                    loginRequestDto.getUsername(),
+                                    loginRequestDto.getEmail(),
                                     loginRequestDto.getPassword()
                             )
                     );
 
-            User user = (User) authentication.getPrincipal();
+            SecurityUser securityUser =
+                    (SecurityUser) authentication.getPrincipal();
 
-            String token = authUtil.generateJwtToken(user);
+            String token = authUtil.generateJwtToken(securityUser);
 
             return new LoginResponseDto(
                     token,
-                    user.getId().toString()
+                    securityUser.getUser().getId()
             );
 
         } catch (BadCredentialsException e) {
@@ -53,24 +59,73 @@ public class AuthService {
         }
     }
 
-    public SignUpResponseDto signup(SignUpRequestDto signUpRequestDto)
-            throws Exception {
+    public SignUpResponseDto signup(SignUpRequestDto dto) {
 
-        User byUsername = userRepository
-                .findByUsername(signUpRequestDto.getUsername())
-                .orElse(null);
+        if(userRepository.findByEmail(dto.getEmail()).isPresent()){
+            throw new IllegalArgumentException("User exists");
+        }
 
-        if(byUsername != null)
-            throw new IllegalArgumentException("User already exists");
 
-        User user = userMapper.toEntity(signUpRequestDto);
+        User user = User.builder()
+                .email(dto.getEmail())
+                .fullName(dto.getFullName())
+                .enabled(true)
+                .accountNonExpired(true)
+                .accountNonLocked(true)
+                .credentialsNonExpired(true)
+                .build();
 
-        user.setPassword(
-                passwordEncoder.encode(user.getPassword())
+        User savedUser = userRepository.save(user);
+
+        UserAuthProvider authProvider =
+                UserAuthProvider.builder()
+                        .user(savedUser)
+                        .providerType(AuthProviderType.MAIL)
+                        .providerId(dto.getEmail())
+                        .passwordHash(
+                                passwordEncoder.encode(dto.getPassword())
+                        )
+                        .build();
+
+        authRepository.save(authProvider);
+
+        return new SignUpResponseDto(
+                savedUser.getId(),
+                savedUser.getFullName(),
+                savedUser.getEmail()
         );
+    }
 
-        User saved = userRepository.save(user);
+    public ResponseEntity<LoginResponseDto> handleOAuth2LoginRequest(
+            OAuth2User oAuth2User,
+            String registrationId
+    ) throws IllegalAccessException {
+      AuthProviderType providerType = authUtil.getAuthProviderTypeByRegistrationId(registrationId);
+      String providerId = authUtil.determineProviderIdFromOAuth2User(oAuth2User,registrationId);
 
-        return userMapper.toDto(saved);
+      String email = oAuth2User.getAttribute("email");
+
+        if (email == null || email.isBlank()) {
+            throw new IllegalArgumentException(
+                    "OAuth provider did not return email"
+            );
+        }
+
+        String name = oAuth2User.getAttribute("name");
+        String fullName = (name == null || name.isBlank())
+                ? "OAuth User"
+                : name;
+        User byEmail = userRepository.findByEmail(email)
+                .orElseGet(()-> oAuthAccountService.createOAuthUser(email,fullName));
+
+        oAuthAccountService.linkProvider(byEmail,providerType,providerId);
+
+        SecurityUser securityUser = oAuthAccountService.buildSecurityUser(byEmail, providerType);
+        String jwtToken = authUtil.generateJwtToken(securityUser);
+
+        return ResponseEntity.ok(new LoginResponseDto(
+                jwtToken,
+                byEmail.getId()
+        ));
     }
 }

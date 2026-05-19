@@ -1,4 +1,4 @@
-package com.manojs.hospitalmanagement.security.dto;
+package com.manojs.hospitalmanagement.user.dto;
 
 
 import lombok.AllArgsConstructor;
@@ -9,6 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SignUpResponseDto {
-    Long id;
-    String username;
+
+    private Long id;
+    private String fullName;
+    private String email;
+
 }
